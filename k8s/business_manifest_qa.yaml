@@ -1,0 +1,83 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: cicdtest
+---
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    configmap.reloader.stakater.com/reload: mifix-config
+  labels:
+    app: cicdtest
+  name: cicdtest
+  namespace: cicdtest
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cicdtest
+  strategy:
+    rollingUpdate:
+      maxSurge: 2
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: cicdtest
+    spec:
+      containers:
+        - image: 939638251740.dkr.ecr.ap-south-1.amazonaws.com/darwin:${IMAGE_TAG}
+          imagePullPolicy: IfNotPresent
+
+          name: cicdtest
+ 
+          ports:
+            - containerPort: 80
+              protocol: TCP
+          resources: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: cicdtest
+  namespace: cicdtest
+spec:
+  ports:
+    - port: 80
+      protocol: TCP
+      targetPort: 80
+  selector:
+    app: cicdtest
+  type: NodePort
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    kubernetes.io/ingress.class: nginx
+  name: cicd-ui-ingress
+  namespace: cicdtest
+spec:
+  rules:
+    - host: cicdtest-ui.mifix.io
+
+      http:
+        paths:
+          - backend:
+              service:
+
+                name: cicdtest
+
+                port:
+                  number: 80
+            path: /
+            pathType: ImplementationSpecific
+  tls:
+    - hosts:
+        - cicdtest-ui.mifix.io
+      secretName: mifixcrt

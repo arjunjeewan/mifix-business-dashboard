@@ -1,0 +1,79 @@
+{
+    "env": {
+        "browser": true,
+
+        "node": true,
+
+        "jest": true,
+
+        "es6": true
+    },
+
+    "plugins": ["import", "simple-import-sort", "unused-imports"],
+
+    "extends": [
+        "eslint:recommended",
+
+        "plugin:react/recommended",
+
+        "plugin:prettier/recommended"
+    ],
+
+    "parserOptions": {
+        "ecmaVersion": 2020,
+
+        "ecmaFeatures": {
+            "jsx": true
+        },
+
+        "sourceType": "module"
+    },
+
+    "settings": {
+        "react": {
+            "version": "detect"
+        }
+    },
+
+    "rules": {
+        "no-console": "off",
+
+        "no-eval": "error",
+
+        "no-constant-condition": "off",
+
+        "import/first": "error",
+
+        "react/react-in-jsx-scope": "off",
+
+        "prettier/prettier": ["error", { "endOfLine": "auto" }],
+
+        "react/prop-types": 0,
+
+        "simple-import-sort/imports": [
+            "off",
+
+            {
+                "groups": [["^react"], ["^antd"], ["^@?\\w"], ["@/(.*)"], ["^[./]"]]
+            }
+        ],
+
+        "no-unused-vars": "off",
+
+        "unused-imports/no-unused-imports": "warn",
+
+        "unused-imports/no-unused-vars": [
+            "warn",
+
+            {
+                "vars": "all",
+
+                "varsIgnorePattern": "^_",
+
+                "args": "after-used",
+
+                "argsIgnorePattern": "^_"
+            }
+        ]
+    }
+}

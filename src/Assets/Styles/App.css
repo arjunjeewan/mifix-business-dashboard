@@ -1,0 +1,16 @@
+.upload-excel input {
+    margin-top: '1rem';
+}
+
+.upload-excel input::file-selector-button {
+    font-weight: 'bold';
+    color: #1976d2;
+    padding: 0.5em;
+    border: thin solid grey;
+    border-radius: 3px;
+}
+
+.upload-excel .template-download {
+    text-decoration: none;
+    margin: 10px 0;
+}
